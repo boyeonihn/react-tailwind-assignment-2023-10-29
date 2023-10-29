@@ -1,15 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-
-interface IData {
-  department: string;
-  dream: string;
-  email: string;
-  reason: string;
-  salary: string;
-  intro: string;
-}
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function Form() {
   const {
@@ -18,14 +9,13 @@ export default function Form() {
     formState: { errors },
   } = useForm();
 
-  const [data, setData] = useState<IData>();
+  const [data, setData] = useState<Record<string, any>>();
 
-  const onSubmit = (data: IData) => {
-    console.log(data, 'data');
+  const onSubmit: SubmitHandler<Record<string, any>> = (data) => {
     setData(data);
+    console.log(data);
   };
 
-  console.log(errors);
   return (
     <section className="bg-green-200 py-10 w-1/2 rounded-3xl text-xl border-black border-2 border-r-8 flex flex-col justify-center items-center">
       <h1 className="font-bold text-4xl m-10">Job Application Form</h1>

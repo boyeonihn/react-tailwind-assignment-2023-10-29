@@ -1,17 +1,30 @@
 'use client';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+
+interface IData {
+  department: string;
+  dream: string;
+  email: string;
+  reason: string;
+  salary: string;
+  intro: string;
+}
 
 export default function Form() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const [data, setData] = useState<IData>();
 
-  console.log(watch('department'));
+  const onSubmit = (data: IData) => {
+    console.log(data, 'data');
+    setData(data);
+  };
+
   console.log(errors);
   return (
     <section className="bg-green-200 py-10 w-1/2 rounded-3xl text-xl border-black border-2 border-r-8 flex flex-col justify-center items-center">
@@ -21,6 +34,9 @@ export default function Form() {
           <legend className="font-semibold">
             What department do you want to work for?
           </legend>
+          <span className=" text-red-500 font-semibold">
+            {errors?.department?.message?.toString()}
+          </span>
           <div>
             <input
               className="w-5 h-5 mr-2"
@@ -28,7 +44,7 @@ export default function Form() {
               id="sales"
               value="sales"
               {...register('department', {
-                required: 'You must select an option',
+                required: '* required',
               })}
             />
             <label htmlFor="sales">Sales</label>
@@ -68,11 +84,14 @@ export default function Form() {
           <legend className="font-semibold">
             Why do you want to join this company?
           </legend>
+          <span className="text-red-500 font-semibold">
+            {errors?.reason?.message?.toString()}
+          </span>
           <div>
             <input
               className="w-5 h-5 mr-2 "
               type="radio"
-              {...register('reason', { required: 'This field is required' })}
+              {...register('reason', { required: '* required' })}
               value="money"
               id="money"
             />
@@ -82,7 +101,7 @@ export default function Form() {
             <input
               className="w-5 h-5 mr-2 "
               type="radio"
-              {...register('reason', { required: 'This field is required' })}
+              {...register('reason', { required: '* required' })}
               value="love"
               id="love"
             />
@@ -92,7 +111,7 @@ export default function Form() {
             <input
               className="w-5 h-5 mr-2 "
               type="radio"
-              {...register('reason', { required: 'This field is required' })}
+              {...register('reason', { required: '* required' })}
               value="learn"
               id="learn"
             />
@@ -102,7 +121,7 @@ export default function Form() {
             <input
               className="w-5 h-5 mr-2 "
               type="radio"
-              {...register('reason', { required: 'This field is required' })}
+              {...register('reason', { required: '* required' })}
               value="noReason"
               id="noReason"
             />
@@ -133,11 +152,14 @@ export default function Form() {
             className="rounded-lg focus:border-blue border-black border-2 p-2"
             type="text"
             id="intro"
-            {...register('introduction', {
+            {...register('intro', {
               required: 'Please introduce yourself to us!',
             })}
           />
         </div>
+        <span className=" text-red-500 font-semibold">
+          {errors?.intro?.message?.toString()}
+        </span>
         <div className="flex flex-col">
           <label htmlFor="dream" className="font-semibold">
             Tell us what your dreams are
@@ -149,11 +171,14 @@ export default function Form() {
               required: 'Please tell us your dreams.',
               minLength: {
                 value: 10,
-                message: 'Please write at least 10 characters',
+                message: 'Please write at least 10 characters.',
               },
             })}
           />
         </div>
+        <span className=" text-red-500 font-semibold">
+          {errors?.dream?.message?.toString()}
+        </span>
         <div className="flex flex-col">
           <label htmlFor="email" className="font-semibold">
             Email
@@ -170,10 +195,20 @@ export default function Form() {
             })}
           />
         </div>
+        <span className="text-red-500 font-semibold">
+          {errors?.email?.message?.toString()}
+          {errors?.email?.type === 'naver'
+            ? 'Only @naver emails allowed'
+            : null}
+        </span>
         <button className="p-4 w-full font-bold border-black border-2 border-b-4 border-r-4 bg-yellow-400 rounded-xl my-5 hover:bg-purple-400">
           Give me this job
         </button>
       </form>
+
+      <div className="w-full h-20 p-5 my-5 overflow-scroll">
+        {data && JSON.stringify(data)}
+      </div>
     </section>
   );
 }

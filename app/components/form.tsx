@@ -17,7 +17,7 @@ export default function Form() {
   };
 
   return (
-    <section className="bg-green-200 py-10 w-1/2 rounded-3xl text-xl border-black border-2 border-r-8 flex flex-col justify-center items-center">
+    <section className="bg-green-200 py-10 px-5 w-1/2 rounded-3xl text-xl border-black border-2 border-r-8 flex flex-col justify-center items-center">
       <h1 className="font-bold text-4xl m-10">Job Application Form</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <fieldset>
